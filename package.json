@@ -1,0 +1,83 @@
+{
+  "name": "mirai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A premium Live2D AI companion — streaming LLM chat, real-time lip sync, emotion-driven expressions, and voice, in the browser.",
+  "license": "MIT",
+  "author": "juliandavid0610 <daisukenagata0209@gmail.com>",
+  "homepage": "https://github.com/juliandavid0610/mirai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juliandavid0610/mirai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juliandavid0610/mirai/issues"
+  },
+  "keywords": [
+    "live2d",
+    "ai-companion",
+    "vtuber",
+    "chatbot",
+    "nextjs",
+    "ai-sdk",
+    "lip-sync",
+    "text-to-speech",
+    "pixi-js",
+    "waifu"
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "dev:webpack": "next dev --webpack",
+    "build:webpack": "next build --webpack",
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json,css}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "capture:shots": "node scripts/capture-screenshots.mjs",
+    "capture:demo": "node scripts/capture-demo.mjs"
+  },
+  "dependencies": {
+    "@ai-sdk/react": "^4.0.110",
+    "ai": "^7.0.107",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.544.0",
+    "motion": "^12.23.12",
+    "next": "^16.0.0",
+    "pixi-live2d-display": "^0.4.0",
+    "pixi.js": "^6.5.10",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.5",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.2",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.35.0",
+    "eslint-config-next": "^16.0.0",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.63.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
