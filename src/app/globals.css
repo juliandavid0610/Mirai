@@ -1,0 +1,239 @@
+@import 'tailwindcss';
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Design tokens
+
+   One accent ramp, one neutral ramp, and a single *live* variable —
+   `--emotion` — which the avatar layer rewrites as the character's mood
+   changes. Every glow, ring and highlight in the app derives from it, so the
+   entire interface shifts colour with the character rather than just a badge
+   in the corner.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-ink-950: oklch(0.14 0.02 280);
+  --color-ink-900: oklch(0.17 0.025 280);
+  --color-ink-850: oklch(0.2 0.028 280);
+  --color-ink-800: oklch(0.24 0.03 280);
+  --color-ink-700: oklch(0.32 0.03 280);
+  --color-ink-600: oklch(0.45 0.028 280);
+  --color-ink-400: oklch(0.65 0.02 280);
+  --color-ink-200: oklch(0.85 0.012 280);
+  --color-ink-100: oklch(0.93 0.01 280);
+  --color-ink-50: oklch(0.97 0.006 280);
+
+  --color-accent-400: oklch(0.78 0.16 300);
+  --color-accent-500: oklch(0.68 0.2 298);
+  --color-accent-600: oklch(0.58 0.21 296);
+
+  --color-cyan-400: oklch(0.82 0.14 200);
+
+  --font-sans:
+    'Inter var', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:
+    ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-panel: 1.5rem;
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-drift: drift 24s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pulse-ring: pulse-ring 2.2s ease-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -6%, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-5%, 4%, 0) scale(0.96);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+:root {
+  /* Rewritten from JS as the character's emotion changes. */
+  --emotion: 265 85% 68%;
+  --emotion-soft: hsl(var(--emotion) / 0.18);
+  --emotion-glow: hsl(var(--emotion) / 0.4);
+  color-scheme: dark;
+}
+
+* {
+  border-color: --alpha(var(--color-ink-700) / 60%);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+}
+
+/* ── Utilities ───────────────────────────────────────────────────────────── */
+
+@utility glass {
+  background: color-mix(in oklab, var(--color-ink-900) 72%, transparent);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--color-ink-700) 55%, transparent);
+}
+
+@utility glass-strong {
+  background: color-mix(in oklab, var(--color-ink-900) 88%, transparent);
+  backdrop-filter: blur(32px) saturate(160%);
+  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--color-ink-700) 70%, transparent);
+}
+
+/* A hairline highlight along the top edge — the detail that makes a glass
+   panel read as a physical surface rather than a translucent rectangle. */
+@utility rim-light {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 1rem;
+    top: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, white 28%, transparent),
+      transparent
+    );
+  }
+}
+
+@utility emotion-ring {
+  box-shadow:
+    0 0 0 1px hsl(var(--emotion) / 0.35),
+    0 0 40px -8px hsl(var(--emotion) / 0.45);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    120deg,
+    var(--color-ink-50) 0%,
+    hsl(var(--emotion) / 0.95) 55%,
+    var(--color-cyan-400) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────────────── */
+
+@layer base {
+  .scroll-subtle {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--color-ink-600) 70%, transparent)
+      transparent;
+  }
+  .scroll-subtle::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-subtle::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll-subtle::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-ink-600) 60%, transparent);
+    border-radius: 999px;
+  }
+  .scroll-subtle::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--color-ink-400) 60%, transparent);
+  }
+
+  ::selection {
+    background: hsl(var(--emotion) / 0.35);
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--emotion) / 0.8);
+    outline-offset: 2px;
+  }
+}
+
+/* Film grain. A single inline SVG turbulence, tiled — no image request, and
+   it is what stops the large gradient areas from banding on 8-bit displays. */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
