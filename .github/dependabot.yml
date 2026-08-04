@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for the routine stuff, individual PRs for majors.
+      minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Pinned deliberately: pixi-live2d-display peers on @pixi/*@6, and a v7
+      # install resolves two copies of @pixi/core. See docs/ARCHITECTURE.md.
+      - dependency-name: pixi.js
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
