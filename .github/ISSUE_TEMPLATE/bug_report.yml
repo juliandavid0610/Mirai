@@ -1,0 +1,81 @@
+name: Bug report
+description: Something behaves differently from how it should
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: if the **character** fails to load, check
+        [docs/LIVE2D.md](../../blob/main/docs/LIVE2D.md#troubleshooting) first.
+        The Cubism runtime and the sample rigs are fetched from a CDN, and a
+        content blocker stops both.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the app
+        2. Switch the avatar to Hiyori
+        3. Send a message
+        4. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part
+      options:
+        - Live2D rendering / expressions
+        - Lip sync / audio
+        - Voice input (microphone)
+        - Chat / streaming
+        - UI / layout
+        - Build or setup
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Chrome 140 on Windows 11
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Was a model key configured?
+      options:
+        - 'No — Rehearsal Mode'
+        - 'Yes — AI Gateway key'
+        - 'Yes — a different provider'
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics overlay
+      description: >
+        Settings → Developer → Show diagnostics overlay. Paste or screenshot it —
+        the `unmapped` line in particular is usually the whole answer for rig
+        problems.
+      render: text
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      render: text
