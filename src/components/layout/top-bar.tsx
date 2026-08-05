@@ -6,7 +6,7 @@ import { useStage } from '@/lib/store/stage-store';
 import { Badge } from '@/components/ui/badge';
 import { IconButton } from '@/components/ui/icon-button';
 
-const REPO_URL = 'https://github.com/juliandavid0610/mirai';
+const REPO_URL = 'https://github.com/juliandavid0610/Mirai';
 
 export function TopBar({ onOpenSettings }: { onOpenSettings: () => void }) {
   const { capabilities, rehearsal } = useCapabilities();

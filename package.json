@@ -5,13 +5,13 @@
   "description": "A premium Live2D AI companion — streaming LLM chat, real-time lip sync, emotion-driven expressions, and voice, in the browser.",
   "license": "MIT",
   "author": "juliandavid0610 <daisukenagata0209@gmail.com>",
-  "homepage": "https://github.com/juliandavid0610/mirai",
+  "homepage": "https://github.com/juliandavid0610/Mirai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/juliandavid0610/mirai.git"
+    "url": "https://github.com/juliandavid0610/Mirai.git"
   },
   "bugs": {
-    "url": "https://github.com/juliandavid0610/mirai/issues"
+    "url": "https://github.com/juliandavid0610/Mirai/issues"
   },
   "keywords": [
     "live2d",

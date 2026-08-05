@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: Live2D rig not loading
-    url: https://github.com/juliandavid0610/mirai/blob/main/docs/LIVE2D.md#troubleshooting
+    url: https://github.com/juliandavid0610/Mirai/blob/main/docs/LIVE2D.md#troubleshooting
     about: The five most common causes, with fixes. Start here.
   - name: Setup and configuration
-    url: https://github.com/juliandavid0610/mirai#configuration
+    url: https://github.com/juliandavid0610/Mirai#configuration
     about: Environment variables and what each one unlocks.
   - name: Live2D licensing
     url: https://www.live2d.com/en/download/sample-data/

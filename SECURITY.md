@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please **do not** open a public issue. Use GitHub's
-[private vulnerability reporting](https://github.com/juliandavid0610/mirai/security/advisories/new),
+[private vulnerability reporting](https://github.com/juliandavid0610/Mirai/security/advisories/new),
 or email <daisukenagata0209@gmail.com>.
 
 Include what you can reproduce, what it lets an attacker do, and the version or

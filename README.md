@@ -54,7 +54,7 @@ things had to be true for that to work:
 ## Quick start
 
 ```bash
-git clone https://github.com/juliandavid0610/mirai.git
+git clone https://github.com/juliandavid0610/Mirai.git
 cd mirai
 npm install
 npm run dev
