@@ -49,15 +49,15 @@ export const EMOTION_LABELS: Record<Emotion, string> = {
  * alpha variants without a colour library.
  */
 export const EMOTION_HUES: Record<Emotion, string> = {
-  neutral: '265 85% 68%',
-  joy: '43 96% 62%',
-  excited: '12 92% 64%',
-  shy: '342 88% 72%',
-  sad: '212 86% 62%',
-  angry: '0 84% 60%',
-  surprised: '175 84% 58%',
-  thinking: '258 70% 66%',
-  sleepy: '232 46% 58%',
+  neutral: '265 92% 74%',
+  joy: '43 98% 65%',
+  excited: '12 96% 67%',
+  shy: '342 94% 75%',
+  sad: '212 92% 68%',
+  angry: '0 90% 66%',
+  surprised: '175 88% 62%',
+  thinking: '258 80% 72%',
+  sleepy: '232 58% 66%',
 };
 
 /** An emotion together with how strongly it was expressed (0…1). */

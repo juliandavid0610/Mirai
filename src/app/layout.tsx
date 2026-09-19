@@ -42,7 +42,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0b0a12',
+  // Matches --color-ink-950. Keep the two in step or the mobile browser chrome
+  // sits a visibly different shade from the page it frames.
+  themeColor: '#242237',
   colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,

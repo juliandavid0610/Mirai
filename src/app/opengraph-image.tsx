@@ -23,8 +23,10 @@ export default function OpenGraphImage() {
           flexDirection: 'column',
           justifyContent: 'center',
           padding: '80px',
+          // Tracks the app's lifted palette — the card and the page it links
+          // to should not look like two different products.
           background:
-            'radial-gradient(1000px 600px at 12% 0%, #3b1d6e 0%, transparent 58%), radial-gradient(900px 600px at 100% 100%, #0e4f63 0%, transparent 55%), #0b0a12',
+            'radial-gradient(1000px 600px at 12% 0%, #5b34a6 0%, transparent 60%), radial-gradient(900px 600px at 100% 100%, #1d7d97 0%, transparent 58%), #231f35',
           color: '#f4f2fb',
           fontFamily: 'system-ui, sans-serif',
         }}
@@ -35,8 +37,8 @@ export default function OpenGraphImage() {
               width: 64,
               height: 64,
               borderRadius: 20,
-              background: 'rgba(167,139,250,0.18)',
-              border: '1px solid rgba(167,139,250,0.45)',
+              background: 'rgba(167,139,250,0.3)',
+              border: '1px solid rgba(232,121,249,0.6)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

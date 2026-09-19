@@ -11,22 +11,29 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  --color-ink-950: oklch(0.14 0.02 280);
-  --color-ink-900: oklch(0.17 0.025 280);
-  --color-ink-850: oklch(0.2 0.028 280);
-  --color-ink-800: oklch(0.24 0.03 280);
-  --color-ink-700: oklch(0.32 0.03 280);
-  --color-ink-600: oklch(0.45 0.028 280);
-  --color-ink-400: oklch(0.65 0.02 280);
-  --color-ink-200: oklch(0.85 0.012 280);
-  --color-ink-100: oklch(0.93 0.01 280);
-  --color-ink-50: oklch(0.97 0.006 280);
+  /* The neutral ramp.
+     Deliberately a *lifted* dark: the background sits around L 0.24 rather
+     than the near-black L 0.14 it started at. Near-black looks dramatic in
+     isolation and gloomy for an hour-long conversation, and it flattens the
+     glass panels — at L 0.14 a 72%-opaque surface over the page is visually
+     indistinguishable from the page. Lifting the floor is what gives the
+     panels somewhere to sit. */
+  --color-ink-950: oklch(0.265 0.038 287);
+  --color-ink-900: oklch(0.325 0.042 287);
+  --color-ink-850: oklch(0.36 0.044 287);
+  --color-ink-800: oklch(0.41 0.044 288);
+  --color-ink-700: oklch(0.5 0.042 288);
+  --color-ink-600: oklch(0.625 0.032 289);
+  --color-ink-400: oklch(0.76 0.024 289);
+  --color-ink-200: oklch(0.9 0.014 290);
+  --color-ink-100: oklch(0.955 0.01 290);
+  --color-ink-50: oklch(0.985 0.005 290);
 
-  --color-accent-400: oklch(0.78 0.16 300);
-  --color-accent-500: oklch(0.68 0.2 298);
-  --color-accent-600: oklch(0.58 0.21 296);
+  --color-accent-400: oklch(0.82 0.16 300);
+  --color-accent-500: oklch(0.72 0.2 298);
+  --color-accent-600: oklch(0.62 0.21 296);
 
-  --color-cyan-400: oklch(0.82 0.14 200);
+  --color-cyan-400: oklch(0.85 0.14 200);
 
   --font-sans:
     'Inter var', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -100,8 +107,9 @@
 }
 
 :root {
-  /* Rewritten from JS as the character's emotion changes. */
-  --emotion: 265 85% 68%;
+  /* Rewritten from JS as the character's emotion changes.
+     Must match EMOTION_HUES.neutral so the first paint does not shift. */
+  --emotion: 265 92% 74%;
   --emotion-soft: hsl(var(--emotion) / 0.18);
   --emotion-glow: hsl(var(--emotion) / 0.4);
   color-scheme: dark;
@@ -127,18 +135,21 @@ body {
 
 /* ── Utilities ───────────────────────────────────────────────────────────── */
 
+/* Opacities are lower than they look like they should be. Now that the page
+   behind them is lit rather than near-black, the aurora reads through the
+   panels — which is the whole point of using glass instead of a flat fill. */
 @utility glass {
-  background: color-mix(in oklab, var(--color-ink-900) 72%, transparent);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  border: 1px solid color-mix(in oklab, var(--color-ink-700) 55%, transparent);
+  background: color-mix(in oklab, var(--color-ink-900) 60%, transparent);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid color-mix(in oklab, var(--color-ink-700) 60%, transparent);
 }
 
 @utility glass-strong {
-  background: color-mix(in oklab, var(--color-ink-900) 88%, transparent);
-  backdrop-filter: blur(32px) saturate(160%);
-  -webkit-backdrop-filter: blur(32px) saturate(160%);
-  border: 1px solid color-mix(in oklab, var(--color-ink-700) 70%, transparent);
+  background: color-mix(in oklab, var(--color-ink-900) 78%, transparent);
+  backdrop-filter: blur(32px) saturate(170%);
+  -webkit-backdrop-filter: blur(32px) saturate(170%);
+  border: 1px solid color-mix(in oklab, var(--color-ink-700) 72%, transparent);
 }
 
 /* A hairline highlight along the top edge — the detail that makes a glass
