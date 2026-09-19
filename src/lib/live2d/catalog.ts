@@ -25,6 +25,23 @@ const LIVE2D_FREE_MATERIAL = {
 
 export const MODEL_CATALOG: ModelDescriptor[] = [
   {
+    id: 'hiyori',
+    name: 'Hiyori',
+    tagline: 'Bright, cheerful, nine idle motions — and no expression files.',
+    url: `${SAMPLES}/Hiyori/Hiyori.model3.json`,
+    cubism: 4,
+    credit: LIVE2D_FREE_MATERIAL,
+    transform: { scale: 0.92, anchorX: 0.5, anchorY: 0.5, offsetX: 0, offsetY: 10 },
+    // No `expressions` key, on purpose. This is the default rig *and* the one
+    // with nothing to fall back on, so the hand-tuned parameter poses in
+    // expression-map.ts carry all nine emotions on the front page. If that
+    // path ever regresses, it is immediately obvious.
+    motions: {
+      neutral: { group: 'Idle' },
+      excited: { group: 'TapBody', index: 0 },
+    },
+  },
+  {
     id: 'haru',
     name: 'Haru',
     tagline: 'The classic greeter. Warm, readable, great for lip-sync demos.',
@@ -77,20 +94,6 @@ export const MODEL_CATALOG: ModelDescriptor[] = [
     },
   },
   {
-    id: 'hiyori',
-    name: 'Hiyori',
-    tagline: 'Nine idle motions, zero expression files — fully parameter-driven.',
-    url: `${SAMPLES}/Hiyori/Hiyori.model3.json`,
-    cubism: 4,
-    credit: LIVE2D_FREE_MATERIAL,
-    transform: { scale: 0.9, anchorX: 0.5, anchorY: 0.5, offsetX: 0, offsetY: 10 },
-    // No `expressions` key: this rig exercises the parameter fallback path.
-    motions: {
-      neutral: { group: 'Idle' },
-      excited: { group: 'TapBody', index: 0 },
-    },
-  },
-  {
     id: 'shizuku',
     name: 'Shizuku',
     tagline: 'A Cubism 2 rig, kept to prove the legacy runtime path still works.',
@@ -139,7 +142,7 @@ export const MODEL_CATALOG: ModelDescriptor[] = [
   },
 ];
 
-export const DEFAULT_MODEL_ID = 'haru';
+export const DEFAULT_MODEL_ID = 'hiyori';
 
 export function findModel(id: string): ModelDescriptor | undefined {
   return MODEL_CATALOG.find((model) => model.id === id);

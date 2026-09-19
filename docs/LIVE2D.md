@@ -101,9 +101,11 @@ Expression names come from `FileReferences.Expressions[].Name` in the
 `.model3.json`. Most rigs use opaque names like `f00`–`f07`, so stepping through
 them one at a time is genuinely the fastest way to build the map.
 
-**If your rig has no expression files at all, do nothing.** Hiyori is in the
-catalog precisely because she is that case: the hand-tuned parameter poses in
-`expression-map.ts` carry all nine emotions on their own.
+**If your rig has no expression files at all, do nothing.** Hiyori is the
+*default* rig precisely because she is that case: the hand-tuned parameter poses
+in `expression-map.ts` carry all nine emotions on their own, so if that path
+ever regresses it is visible on the front page rather than hidden behind a
+picker.
 
 ### 5. Check the parameter names
 
