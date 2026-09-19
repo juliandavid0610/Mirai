@@ -5,6 +5,32 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-09-20
+
+### Changed
+
+- **Lifted the whole palette.** The background moves from a near-black
+  `oklch(0.14 …)` to a deep indigo `oklch(0.265 …)`, with the panel, border and
+  muted-text steps raised to match. Near-black reads as dramatic for a minute
+  and gloomy for an hour, and it flattened the glass panels: over a near-black
+  page a 72%-opaque surface is visually indistinguishable from the page itself.
+  Panel opacity dropped to 60% at the same time, so the aurora now reads
+  *through* the glass — which is the point of using glass rather than a flat
+  fill.
+- Aurora washes are brighter and gained a warm floor glow; the vignette no
+  longer claws back most of the brightness at the edges.
+- Emotion accents are a few points brighter and more saturated, so they still
+  carry against the lighter surfaces.
+- **New app icon.** The old mark was a dark tile, which disappeared against the
+  light browser chrome and gallery cards it mostly sits on. The replacement is a
+  bright violet-to-cyan tile with a face — readable at 16px, where an abstract
+  glyph is not — and it is now also the mark in the top bar, with the emotion
+  colour moved to the halo around it.
+- **Hiyori is the default rig**, replacing Haru. She is brighter, and she ships
+  no expression files, so the default view permanently exercises the
+  parameter-pose fallback instead of hiding it behind the model picker.
+- Open Graph card and `theme-color` follow the new palette.
+
 ## [1.0.0] — 2026-08-05
 
 First stable release.
@@ -91,6 +117,7 @@ First stable release.
   pointer-driven head tracking.
 - Glassmorphism UI shell, responsive from phone to desktop.
 
+[1.1.0]: https://github.com/juliandavid0610/Mirai/releases/tag/v1.1.0
 [1.0.0]: https://github.com/juliandavid0610/Mirai/releases/tag/v1.0.0
 [0.3.0]: https://github.com/juliandavid0610/Mirai/releases/tag/v0.3.0
 [0.2.0]: https://github.com/juliandavid0610/Mirai/releases/tag/v0.2.0

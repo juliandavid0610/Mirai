@@ -104,16 +104,16 @@ talking to.
 
 <table>
 <tr>
-<td width="50%"><img src="docs/assets/screenshot-hero.png" alt="Mirai's opening screen, with the character idle and suggested prompts in the chat panel" /></td>
-<td width="50%"><img src="docs/assets/screenshot-streaming.png" alt="A reply streaming in, with the interface shifted to the excited colour" /></td>
+<td width="50%"><img src="docs/assets/screenshot-hero.webp" alt="Mirai's opening screen, with the character idle and suggested prompts in the chat panel" /></td>
+<td width="50%"><img src="docs/assets/screenshot-streaming.webp" alt="A reply streaming in, with the interface shifted to the excited colour" /></td>
 </tr>
 <tr>
 <td><sub><b>Idle.</b> Secondary sway on three incommensurable sines, so the loop never visibly repeats.</sub></td>
 <td><sub><b>Streaming.</b> The emotion cue has fired mid-reply and the whole UI has followed it.</sub></td>
 </tr>
 <tr>
-<td><img src="docs/assets/screenshot-settings.png" alt="The settings drawer showing character, model, avatar and voice controls" /></td>
-<td><img src="docs/assets/screenshot-debug.png" alt="The diagnostics overlay showing model, FPS, emotion and the live mouth parameter" /></td>
+<td><img src="docs/assets/screenshot-settings.webp" alt="The settings drawer showing character, model, avatar and voice controls" /></td>
+<td><img src="docs/assets/screenshot-debug.webp" alt="The diagnostics overlay showing model, FPS, emotion and the live mouth parameter" /></td>
 </tr>
 <tr>
 <td><sub><b>Settings.</b> The avatar stays live behind the sheet so you can watch sliders take effect.</sub></td>
@@ -233,7 +233,8 @@ To add your own, drop it in `public/models/` and add an entry to
 ```
 
 Omit `expressions` entirely and the rig runs on the parameter poses alone — which
-is exactly how Hiyori works, since she ships no expression files at all. Turn on
+is exactly how Hiyori, the default rig, works: she ships no expression files at
+all, so the front page is permanently exercising that path. Turn on
 the diagnostics overlay to see which parameters your rig didn't recognise.
 
 Full guide: [`docs/LIVE2D.md`](docs/LIVE2D.md).
@@ -281,7 +282,7 @@ src/
 | `npm run test:coverage` | Coverage over `src/lib` |
 | `npm run typecheck` | `tsc --noEmit`, strict + `noUncheckedIndexedAccess` |
 | `npm run lint` | ESLint flat config |
-| `node scripts/capture-screenshots.mjs` | Regenerates the README screenshots from the running app |
+| `node scripts/capture-screenshots.mjs` | Regenerates `docs/assets/*.webp` from the running app |
 | `node scripts/capture-demo.mjs` | Regenerates `demo.gif` (needs `ffmpeg-static` or a system ffmpeg) |
 
 <details>

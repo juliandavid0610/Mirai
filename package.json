@@ -1,6 +1,6 @@
 {
   "name": "mirai",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "A premium Live2D AI companion — streaming LLM chat, real-time lip sync, emotion-driven expressions, and voice, in the browser.",
   "license": "MIT",
