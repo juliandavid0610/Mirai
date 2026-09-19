@@ -15,15 +15,23 @@ export function TopBar({ onOpenSettings }: { onOpenSettings: () => void }) {
   return (
     <header className="flex items-center justify-between gap-4 px-5 py-3.5">
       <div className="flex items-center gap-3">
-        {/* The mark is the emotion colour, so the logo breathes with the
-            character's mood along with everything else. */}
-        <span
-          aria-hidden
-          className="relative grid size-9 place-items-center rounded-xl bg-[hsl(var(--emotion)/0.16)] ring-1 ring-[hsl(var(--emotion)/0.35)]"
-        >
-          <span className="size-2.5 rounded-full bg-[hsl(var(--emotion))]" />
+        {/* The app mark itself, with an emotion-coloured halo around it — so
+            the brand stays constant while the glow still breathes with the
+            character's mood.
+            A plain <img> on purpose: this is a static local SVG, and next/image
+            would only add a runtime and a `dangerouslyAllowSVG` config flag for
+            no benefit at 36px. */}
+        <span aria-hidden className="relative grid size-9 place-items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/icon.svg"
+            alt=""
+            width={36}
+            height={36}
+            className="size-9 rounded-xl shadow-[0_0_20px_-4px_hsl(var(--emotion)/0.9)]"
+          />
           {status === 'ready' && (
-            <span className="absolute inset-0 animate-pulse-ring rounded-xl ring-1 ring-[hsl(var(--emotion)/0.5)]" />
+            <span className="absolute inset-0 animate-pulse-ring rounded-xl ring-2 ring-[hsl(var(--emotion)/0.6)]" />
           )}
         </span>
 
