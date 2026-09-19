@@ -14,29 +14,11 @@ import { chromium } from 'playwright';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { resolveFfmpeg } from './ffmpeg.mjs';
 
 const BASE = process.env.MIRAI_BASE_URL ?? 'http://127.0.0.1:3000';
 const OUT = process.env.MIRAI_SHOT_DIR ?? 'docs/assets';
 const WORK = process.env.MIRAI_WORK_DIR ?? '.mirai-capture';
-
-/**
- * Resolve an ffmpeg that can actually write a GIF.
- *
- * Note the build Playwright ships is *not* usable here: it is a minimal
- * VP8-decode-only binary with no GIF encoder and no palette filters. Either
- * install `ffmpeg-static` or point FFMPEG_PATH at a full system build.
- */
-async function resolveFfmpeg() {
-  if (process.env.FFMPEG_PATH) return process.env.FFMPEG_PATH;
-  try {
-    const mod = await import('ffmpeg-static');
-    const path = mod.default ?? mod;
-    if (typeof path === 'string' && path) return path;
-  } catch {
-    /* not installed — fall through to the system binary */
-  }
-  return 'ffmpeg';
-}
 
 const FFMPEG = await resolveFfmpeg();
 
@@ -87,12 +69,14 @@ try {
   console.warn('! rig never became ready — the recording will be of a spinner');
 }
 
-// Everything before this point is loading, and nobody wants to watch that.
-// The recording is trimmed to start here.
-const startedAt = Date.now();
-await page.waitForTimeout(1800);
+// Let the rig settle clear of the loading spinner before anything happens.
+// The front of this is trimmed off, so it costs nothing.
+await page.waitForTimeout(4000);
 
 const box = page.getByPlaceholder(/Say something/i);
+// Everything from here is the demo. This timestamp is the anchor the trim is
+// measured back from — see the note on TAIL below.
+const interactionStart = Date.now();
 await box.click();
 // Typed rather than filled, so the GIF shows the composer in use.
 await box.type('How does your lip sync actually work?', { delay: 55 });
@@ -102,7 +86,9 @@ await box.press('Enter');
 // Long enough for the scripted reply to stream through two emotion changes.
 await page.waitForTimeout(11_000);
 
-const wallSeconds = (Date.now() - recordingStart) / 1000;
+const endedAt = Date.now();
+const wallSeconds = (endedAt - recordingStart) / 1000;
+const interactionWallSeconds = (endedAt - interactionStart) / 1000;
 await context.close();
 await browser.close();
 
@@ -129,23 +115,33 @@ function durationSeconds(file) {
 }
 
 /**
- * Map the wall-clock moment the rig became ready onto the recording's own
- * timeline.
+ * Trim from the END of the recording, not the start.
  *
- * These are not the same clock. Playwright's WebM is variable-frame-rate and
- * consistently runs shorter than the wall time it covers — on this scene by
- * roughly 15% — so seeking to the raw wall-clock offset overshoots and the GIF
- * opens *after* the interesting part. Scaling by the measured ratio makes the
- * trim correct regardless of how the recorder behaves on a given machine.
+ * Seeking forward from the start needs to know when the rig finished loading,
+ * and that is the one thing in this script that cannot be pinned down: it is a
+ * CDN fetch rendered through SwiftShader, and it varied between 14s and 42s
+ * across runs on the same machine. Worse, Playwright's WebM is
+ * variable-frame-rate and runs shorter than the wall time it covers, so a
+ * wall-clock offset does not map onto it linearly.
+ *
+ * The tail, by contrast, is entirely controlled by this script's own waits.
+ * Anchoring to the end and counting backwards makes the trim exact no matter
+ * how long loading took.
  */
 const videoSeconds = durationSeconds(source);
 const clockRatio = wallSeconds > 0 && videoSeconds > 0 ? videoSeconds / wallSeconds : 1;
-const trimSeconds = Math.max(0, ((startedAt - recordingStart) / 1000) * clockRatio);
 
-/** Skip the loading phase and cap the length, in that order. */
-const trim = ['-ss', trimSeconds.toFixed(2), '-t', String(DEMO_SECONDS)];
+/** Seconds of settled, idle character to show before the typing starts. */
+const LEAD_IN = 1.5;
+const tailSeconds = Math.min(
+  videoSeconds,
+  (interactionWallSeconds + LEAD_IN) * clockRatio,
+);
 
-console.log(`→ generating palette (trimming ${trimSeconds.toFixed(1)}s of loading)`);
+/** `-sseof` is a negative offset from the end of the input. */
+const trim = ['-sseof', `-${tailSeconds.toFixed(2)}`, '-t', String(DEMO_SECONDS)];
+
+console.log(`→ generating palette (keeping the last ${tailSeconds.toFixed(1)}s)`);
 execFileSync(FFMPEG, [
   '-y', ...trim, '-i', source,
   // `stats_mode=diff` weights the palette toward the pixels that actually

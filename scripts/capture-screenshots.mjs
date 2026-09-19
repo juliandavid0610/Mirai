@@ -9,12 +9,27 @@
  * the Live2D canvas silently renders nothing at all.
  */
 import { chromium } from 'playwright';
-import { mkdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { mkdirSync, rmSync } from 'node:fs';
+import { resolveFfmpeg } from './ffmpeg.mjs';
 
 const BASE = process.env.MIRAI_BASE_URL ?? 'http://127.0.0.1:3000';
 const OUT = process.env.MIRAI_SHOT_DIR ?? 'docs/assets';
 
+/**
+ * Captured at 2× and published at this width, as WebP.
+ *
+ * PNG is the wrong container for these. The page is large smooth gradients
+ * plus a film-grain overlay, which is close to worst case for lossless
+ * compression — the same shot is ~900KB as PNG and ~50KB as WebP at quality
+ * 90, with no artefacts visible on the UI text.
+ */
+const PUBLISH_WIDTH = 1600;
+const MOBILE_WIDTH = 600;
+const WEBP_QUALITY = 90;
+
 mkdirSync(OUT, { recursive: true });
+const FFMPEG = await resolveFfmpeg();
 
 /** The model credit only renders once the rig reports `ready`. */
 const RIG_READY = 'text=/Live2D Inc/';
@@ -26,15 +41,30 @@ const RIG_READY = 'text=/Live2D Inc/';
  */
 const SHOT_TIMEOUT = 180_000;
 
-async function shot(page, name, out) {
+async function shot(page, name, out, width = PUBLISH_WIDTH) {
+  const png = `${out}/${name}.png`;
   await page.screenshot({
-    path: `${out}/${name}.png`,
+    path: png,
     timeout: SHOT_TIMEOUT,
     // Freeze CSS animations so the aurora and pulse rings land in the same
     // place every run; the WebGL rig is unaffected and stays live.
     animations: 'disabled',
   });
-  console.log('✓', name);
+
+  try {
+    execFileSync(
+      FFMPEG,
+      ['-y', '-i', png, '-vf', `scale=${width}:-1:flags=lanczos`,
+       '-c:v', 'libwebp', '-quality', String(WEBP_QUALITY), '-compression_level', '6',
+       `${out}/${name}.webp`],
+      { stdio: 'ignore' },
+    );
+    rmSync(png, { force: true });
+    console.log('✓', `${name}.webp`);
+  } catch {
+    // No ffmpeg available — keep the PNG rather than losing the capture.
+    console.warn('!', `${name}: ffmpeg unavailable, left as PNG`);
+  }
 }
 
 const browser = await chromium.launch({
@@ -113,7 +143,7 @@ const mobilePage = await mobile.newPage();
 await mobilePage.goto(BASE, { waitUntil: 'networkidle', timeout: 60_000 });
 await waitForRig(mobilePage, 90_000);
 await mobilePage.waitForTimeout(2000);
-await shot(mobilePage, 'screenshot-mobile', OUT);
+await shot(mobilePage, 'screenshot-mobile', OUT, MOBILE_WIDTH);
 
 await browser.close();
 console.log('done →', OUT);
